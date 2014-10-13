@@ -1,0 +1,146 @@
+\section{Token Class Reference}
+\label{class_token}\index{Token@{Token}}
+
+
+Stores values to identify the type and related string to the token.  
+
+
+
+
+{\ttfamily \#include $<$Token.\-h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\bf Token} (int {\bf type}, const string \&{\bf symbol})
+\begin{DoxyCompactList}\small\item\em \doxyref{Token}{p.}{class_token} constructor. \end{DoxyCompactList}\item 
+int {\bf type} () const 
+\begin{DoxyCompactList}\small\item\em Gets the token's type. \end{DoxyCompactList}\item 
+const string \& {\bf symbol} () const 
+\begin{DoxyCompactList}\small\item\em Gets the token's symbol. \end{DoxyCompactList}\item 
+string \& {\bf symbol} ()
+\begin{DoxyCompactList}\small\item\em Gets the token's symbol. \end{DoxyCompactList}\item 
+void {\bf set\-Type} (int {\bf type})
+\begin{DoxyCompactList}\small\item\em Sets the token's type. \end{DoxyCompactList}\item 
+void {\bf set\-Symbol} (const string \&{\bf symbol})
+\begin{DoxyCompactList}\small\item\em Sets the token's symbol. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Stores values to identify the type and related string to the token. 
+
+\subsection{Constructor \& Destructor Documentation}
+\index{Token@{Token}!Token@{Token}}
+\index{Token@{Token}!Token@{Token}}
+\subsubsection[{Token}]{\setlength{\rightskip}{0pt plus 5cm}Token\-::\-Token (
+\begin{DoxyParamCaption}
+\item[{int}]{type, }
+\item[{const string \&}]{symbol}
+\end{DoxyParamCaption}
+)}\label{class_token_a5e6bbb679ca6bcc66f2f892b4dbd9edb}
+
+
+\doxyref{Token}{p.}{class_token} constructor. 
+
+Constructs a \doxyref{Token}{p.}{class_token} object.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em type} & The token's type. \\
+\hline
+\mbox{\tt in}  & {\em symbol} & The token's string. \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\index{Token@{Token}!set\-Symbol@{set\-Symbol}}
+\index{set\-Symbol@{set\-Symbol}!Token@{Token}}
+\subsubsection[{set\-Symbol}]{\setlength{\rightskip}{0pt plus 5cm}void Token\-::set\-Symbol (
+\begin{DoxyParamCaption}
+\item[{const string \&}]{symbol}
+\end{DoxyParamCaption}
+)}\label{class_token_aa8b2a778606b3325cf3ee5c1720665de}
+
+
+Sets the token's symbol. 
+
+Sets the token's symbol attribute.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em symbol} & The string of the token. \\
+\hline
+\end{DoxyParams}
+\index{Token@{Token}!set\-Type@{set\-Type}}
+\index{set\-Type@{set\-Type}!Token@{Token}}
+\subsubsection[{set\-Type}]{\setlength{\rightskip}{0pt plus 5cm}void Token\-::set\-Type (
+\begin{DoxyParamCaption}
+\item[{int}]{type}
+\end{DoxyParamCaption}
+)}\label{class_token_a6bf54cdc17cec9c64eeefaf756c260d6}
+
+
+Sets the token's type. 
+
+Sets the token's type attribute.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em type} & The type of the token. \\
+\hline
+\end{DoxyParams}
+\index{Token@{Token}!symbol@{symbol}}
+\index{symbol@{symbol}!Token@{Token}}
+\subsubsection[{symbol}]{\setlength{\rightskip}{0pt plus 5cm}const string \& Token\-::symbol (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\label{class_token_a482d81da9a5db2bf6831984514149a64}
+
+
+Gets the token's symbol. 
+
+Gets the attribute field from the token.
+
+\begin{DoxyReturn}{Returns}
+A constant reference to the token's symbol attribute. 
+\end{DoxyReturn}
+\index{Token@{Token}!symbol@{symbol}}
+\index{symbol@{symbol}!Token@{Token}}
+\subsubsection[{symbol}]{\setlength{\rightskip}{0pt plus 5cm}string \& Token\-::symbol (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_token_a1d7b5a7651157098a8e1175998ab2c11}
+
+
+Gets the token's symbol. 
+
+Gets the symbol attribute from the token.
+
+\begin{DoxyReturn}{Returns}
+A reference to the token's symbol attribute. 
+\end{DoxyReturn}
+\index{Token@{Token}!type@{type}}
+\index{type@{type}!Token@{Token}}
+\subsubsection[{type}]{\setlength{\rightskip}{0pt plus 5cm}int Token\-::type (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\label{class_token_a09c0ff9720be0b1f7592630aaea902c2}
+
+
+Gets the token's type. 
+
+Gets the type attribute from the token.
+
+\begin{DoxyReturn}{Returns}
+The value of the type attribute. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+Core/{\bf Token.\-h}\item 
+Core/{\bf Token.\-cpp}\end{DoxyCompactItemize}

@@ -1,0 +1,228 @@
+\section{Tokenizer Class Reference}
+\label{class_tokenizer}\index{Tokenizer@{Tokenizer}}
+
+
+Object used to obtain tokens from a string according to an finite automata and a keyword set.  
+
+
+
+
+{\ttfamily \#include $<$Tokenizer.\-h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\bf Tokenizer} ()
+\begin{DoxyCompactList}\small\item\em \doxyref{Tokenizer}{p.}{class_tokenizer} defualt constructor. \end{DoxyCompactList}\item 
+{\bf Tokenizer} ({\bf Abstract\-Automata} $\ast${\bf automata}, {\bf Keyword\-Set} $\ast${\bf keywords})
+\begin{DoxyCompactList}\small\item\em \doxyref{Tokenizer}{p.}{class_tokenizer} constructor. \end{DoxyCompactList}\item 
+{\bf $\sim$\-Tokenizer} ()
+\begin{DoxyCompactList}\small\item\em \doxyref{Tokenizer}{p.}{class_tokenizer} destructor. \end{DoxyCompactList}\item 
+const {\bf Abstract\-Automata} \& {\bf automata} () const 
+\begin{DoxyCompactList}\small\item\em Gets the automata used by this tokenizer. \end{DoxyCompactList}\item 
+{\bf Abstract\-Automata} \& {\bf automata} ()
+\begin{DoxyCompactList}\small\item\em Gets the automata used by this tokenizer. \end{DoxyCompactList}\item 
+const {\bf Keyword\-Set} \& {\bf keywords} () const 
+\begin{DoxyCompactList}\small\item\em Gets the keyword set used by this tokenizer. \end{DoxyCompactList}\item 
+{\bf Keyword\-Set} \& {\bf keywords} ()
+\begin{DoxyCompactList}\small\item\em Gets the keyword set used by this tokenizer. \end{DoxyCompactList}\item 
+void {\bf set\-Automata} ({\bf Abstract\-Automata} $\ast${\bf automata})
+\begin{DoxyCompactList}\small\item\em Sets the automata used on this tokenizer. \end{DoxyCompactList}\item 
+void {\bf set\-Keywords} ({\bf Keyword\-Set} $\ast${\bf keywords})
+\begin{DoxyCompactList}\small\item\em Sets the keyword set used on this tokenizer. \end{DoxyCompactList}\item 
+void {\bf set\-Line} (const string \&line)
+\begin{DoxyCompactList}\small\item\em Sets the line to be analyzed. \end{DoxyCompactList}\item 
+{\bf Token} $\ast$ {\bf get\-Token} ()
+\begin{DoxyCompactList}\small\item\em Gets the next token from the line. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Object used to obtain tokens from a string according to an finite automata and a keyword set. 
+
+\subsection{Constructor \& Destructor Documentation}
+\index{Tokenizer@{Tokenizer}!Tokenizer@{Tokenizer}}
+\index{Tokenizer@{Tokenizer}!Tokenizer@{Tokenizer}}
+\subsubsection[{Tokenizer}]{\setlength{\rightskip}{0pt plus 5cm}Tokenizer\-::\-Tokenizer (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_tokenizer_a2a6c04ea8c784f66bebcb6df7073769c}
+
+
+\doxyref{Tokenizer}{p.}{class_tokenizer} defualt constructor. 
+
+Constructs a \doxyref{Tokenizer}{p.}{class_tokenizer} object. The object constructed does not have a set automata or keyword set, so the user should remember to set them before calling \doxyref{get\-Token()}{p.}{class_tokenizer_aa4af0833554a7b7c8031598ca59af0b3}. \index{Tokenizer@{Tokenizer}!Tokenizer@{Tokenizer}}
+\index{Tokenizer@{Tokenizer}!Tokenizer@{Tokenizer}}
+\subsubsection[{Tokenizer}]{\setlength{\rightskip}{0pt plus 5cm}Tokenizer\-::\-Tokenizer (
+\begin{DoxyParamCaption}
+\item[{{\bf Abstract\-Automata} $\ast$}]{automata, }
+\item[{{\bf Keyword\-Set} $\ast$}]{keywords}
+\end{DoxyParamCaption}
+)}\label{class_tokenizer_a3314aebbe5f32626928c6704509d8b82}
+
+
+\doxyref{Tokenizer}{p.}{class_tokenizer} constructor. 
+
+Constructs a \doxyref{Tokenizer}{p.}{class_tokenizer} object with the given automata and keyword set.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em automata} & The automata to use. Should be dynamically allocated. \\
+\hline
+\mbox{\tt in}  & {\em keywords} & The keyword set to use. Should be dynamically allocated. \\
+\hline
+\end{DoxyParams}
+\index{Tokenizer@{Tokenizer}!$\sim$\-Tokenizer@{$\sim$\-Tokenizer}}
+\index{$\sim$\-Tokenizer@{$\sim$\-Tokenizer}!Tokenizer@{Tokenizer}}
+\subsubsection[{$\sim$\-Tokenizer}]{\setlength{\rightskip}{0pt plus 5cm}Tokenizer\-::$\sim$\-Tokenizer (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_tokenizer_a3f60f887953edf0f95ba5f36102f7017}
+
+
+\doxyref{Tokenizer}{p.}{class_tokenizer} destructor. 
+
+Destroys the \doxyref{Tokenizer}{p.}{class_tokenizer} object. 
+
+\subsection{Member Function Documentation}
+\index{Tokenizer@{Tokenizer}!automata@{automata}}
+\index{automata@{automata}!Tokenizer@{Tokenizer}}
+\subsubsection[{automata}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf Abstract\-Automata} \& Tokenizer\-::automata (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\label{class_tokenizer_a7cc2c6f09729707cf930816e1413d686}
+
+
+Gets the automata used by this tokenizer. 
+
+Gets the automata attribute from the \doxyref{Tokenizer}{p.}{class_tokenizer}.
+
+\begin{DoxyReturn}{Returns}
+A constant reference to the automata attribute. 
+\end{DoxyReturn}
+\index{Tokenizer@{Tokenizer}!automata@{automata}}
+\index{automata@{automata}!Tokenizer@{Tokenizer}}
+\subsubsection[{automata}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Abstract\-Automata} \& Tokenizer\-::automata (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_tokenizer_af6772b47f73f978f00c04129cb8170b7}
+
+
+Gets the automata used by this tokenizer. 
+
+Gets the automata attribute from the \doxyref{Tokenizer}{p.}{class_tokenizer}.
+
+\begin{DoxyReturn}{Returns}
+A reference to the automata attribute. 
+\end{DoxyReturn}
+\index{Tokenizer@{Tokenizer}!get\-Token@{get\-Token}}
+\index{get\-Token@{get\-Token}!Tokenizer@{Tokenizer}}
+\subsubsection[{get\-Token}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Token} $\ast$ Tokenizer\-::get\-Token (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_tokenizer_aa4af0833554a7b7c8031598ca59af0b3}
+
+
+Gets the next token from the line. 
+
+Gets the next token from the given input string. The token returned will be dynamically allocated, so one should remember to deallocate it later.
+
+\begin{DoxyReturn}{Returns}
+The token found or 0 if no more tokens can be extracted. 
+\end{DoxyReturn}
+\index{Tokenizer@{Tokenizer}!keywords@{keywords}}
+\index{keywords@{keywords}!Tokenizer@{Tokenizer}}
+\subsubsection[{keywords}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf Keyword\-Set} \& Tokenizer\-::keywords (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\label{class_tokenizer_a5ad2952f74ade66b8d83aff9cdf711e6}
+
+
+Gets the keyword set used by this tokenizer. 
+
+Gets the keywords attribute from the \doxyref{Tokenizer}{p.}{class_tokenizer}.
+
+\begin{DoxyReturn}{Returns}
+A constant reference to the keywords attribute. 
+\end{DoxyReturn}
+\index{Tokenizer@{Tokenizer}!keywords@{keywords}}
+\index{keywords@{keywords}!Tokenizer@{Tokenizer}}
+\subsubsection[{keywords}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Keyword\-Set} \& Tokenizer\-::keywords (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_tokenizer_afd70e3a4799e59c718da0527756ef7fc}
+
+
+Gets the keyword set used by this tokenizer. 
+
+Gets the keywords attribute from the \doxyref{Tokenizer}{p.}{class_tokenizer}.
+
+\begin{DoxyReturn}{Returns}
+A reference to the keywords attribute. 
+\end{DoxyReturn}
+\index{Tokenizer@{Tokenizer}!set\-Automata@{set\-Automata}}
+\index{set\-Automata@{set\-Automata}!Tokenizer@{Tokenizer}}
+\subsubsection[{set\-Automata}]{\setlength{\rightskip}{0pt plus 5cm}void Tokenizer\-::set\-Automata (
+\begin{DoxyParamCaption}
+\item[{{\bf Abstract\-Automata} $\ast$}]{automata}
+\end{DoxyParamCaption}
+)}\label{class_tokenizer_a9d65ffbaff06767f27cd1100abcce71e}
+
+
+Sets the automata used on this tokenizer. 
+
+Sets the automata to be used when tokenizing the given input string. The automata passed should be dynamically allocated. If a previous automata had been set, it will be deleted.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em automata} & The automata to use. \\
+\hline
+\end{DoxyParams}
+\index{Tokenizer@{Tokenizer}!set\-Keywords@{set\-Keywords}}
+\index{set\-Keywords@{set\-Keywords}!Tokenizer@{Tokenizer}}
+\subsubsection[{set\-Keywords}]{\setlength{\rightskip}{0pt plus 5cm}void Tokenizer\-::set\-Keywords (
+\begin{DoxyParamCaption}
+\item[{{\bf Keyword\-Set} $\ast$}]{keywords}
+\end{DoxyParamCaption}
+)}\label{class_tokenizer_a23a5e92fb2e1fd9d723591bfe3313715}
+
+
+Sets the keyword set used on this tokenizer. 
+
+Sets the keyword set to be used when tokenizing the given input string. The keyword set passed should have been dynamically allocated. If a previous keyword set had been set, it will be deleted.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em keywords} & The keyword set to use. \\
+\hline
+\end{DoxyParams}
+\index{Tokenizer@{Tokenizer}!set\-Line@{set\-Line}}
+\index{set\-Line@{set\-Line}!Tokenizer@{Tokenizer}}
+\subsubsection[{set\-Line}]{\setlength{\rightskip}{0pt plus 5cm}void Tokenizer\-::set\-Line (
+\begin{DoxyParamCaption}
+\item[{const string \&}]{line}
+\end{DoxyParamCaption}
+)}\label{class_tokenizer_aef352d6dd5aec223848573c635055eb2}
+
+
+Sets the line to be analyzed. 
+
+Sets the line to use when tokenizing and also resets the index used when iterating over it.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em line} & The line to be tokenized. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+Tokenizer/{\bf Tokenizer.\-h}\item 
+Tokenizer/{\bf Tokenizer.\-cpp}\end{DoxyCompactItemize}

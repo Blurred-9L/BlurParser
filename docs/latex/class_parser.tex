@@ -1,0 +1,362 @@
+\section{Parser Class Reference}
+\label{class_parser}\index{Parser@{Parser}}
+
+
+Base class for performing an syntactic analysis over a set of tokens. A syntax tree can be produced if the methods are overriden correctly.  
+
+
+
+
+{\ttfamily \#include $<$Parser.\-h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\bf Parser} ()
+\begin{DoxyCompactList}\small\item\em \doxyref{Parser}{p.}{class_parser} default constructor. \end{DoxyCompactList}\item 
+{\bf Parser} ({\bf Parser\-Table} $\ast${\bf table}, {\bf Tokenizer} $\ast${\bf tokenizer})
+\begin{DoxyCompactList}\small\item\em \doxyref{Parser}{p.}{class_parser} constructor. \end{DoxyCompactList}\item 
+virtual {\bf $\sim$\-Parser} ()
+\begin{DoxyCompactList}\small\item\em \doxyref{Parser}{p.}{class_parser} destructor. \end{DoxyCompactList}\item 
+const {\bf Parser\-Table} \& {\bf table} () const 
+\begin{DoxyCompactList}\small\item\em Gets the parser's L\-R Table. \end{DoxyCompactList}\item 
+{\bf Parser\-Table} \& {\bf table} ()
+\begin{DoxyCompactList}\small\item\em Gets the parser's L\-R Table. \end{DoxyCompactList}\item 
+const {\bf Tokenizer} \& {\bf tokenizer} () const 
+\begin{DoxyCompactList}\small\item\em Gets the parser's tokenizer object. \end{DoxyCompactList}\item 
+{\bf Tokenizer} \& {\bf tokenizer} ()
+\begin{DoxyCompactList}\small\item\em Gets the parser's tokenizer object. \end{DoxyCompactList}\item 
+int {\bf end\-Of\-Input} () const 
+\begin{DoxyCompactList}\small\item\em Gets the value for the end-\/of-\/input token. \end{DoxyCompactList}\item 
+void {\bf set\-Table} ({\bf Parser\-Table} $\ast${\bf table})
+\begin{DoxyCompactList}\small\item\em Sets the parser's L\-R Table. \end{DoxyCompactList}\item 
+void {\bf set\-Tokenizer} ({\bf Tokenizer} $\ast${\bf tokenizer})
+\begin{DoxyCompactList}\small\item\em Sets the parser's tokenizer object. \end{DoxyCompactList}\item 
+void {\bf set\-End\-Of\-Input} (int {\bf end\-Of\-Input})
+\begin{DoxyCompactList}\small\item\em Sets the value to be used as end-\/of-\/input. \end{DoxyCompactList}\item 
+virtual bool {\bf parse} (const string \&line)
+\begin{DoxyCompactList}\small\item\em Parses the given line. \end{DoxyCompactList}\item 
+virtual {\bf Syntax\-Node} $\ast$ {\bf get\-Syntax\-Tree\-Root} ()=0\label{class_parser_a12389b22f0568343663438772315d1f9}
+
+\begin{DoxyCompactList}\small\item\em Gets the root of the syntax tree. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual bool {\bf do\-Action} (int state, int token\-Type)
+\begin{DoxyCompactList}\small\item\em Tries to find the action to do with a pair (state, token\-Type) \end{DoxyCompactList}\item 
+virtual bool {\bf apply\-Action} ({\bf Parser\-Table\-Action} $\ast$action)
+\begin{DoxyCompactList}\small\item\em Applies an action during parsing. \end{DoxyCompactList}\item 
+virtual bool {\bf apply\-Reduction} (int rule\-Number)
+\begin{DoxyCompactList}\small\item\em Applies a specific reduction. \end{DoxyCompactList}\item 
+virtual {\bf Syntax\-Node} $\ast$ {\bf to\-Syntax\-Node} ({\bf Token} $\ast$token)=0\label{class_parser_a8e7c0c8fa622e1232c2f6bf0467c0a78}
+
+\begin{DoxyCompactList}\small\item\em Gets the \doxyref{Syntax\-Node}{p.}{class_syntax_node} wrapping a given token. \end{DoxyCompactList}\item 
+virtual {\bf Syntax\-Node} $\ast$ {\bf reduce} (int rule\-Number)=0\label{class_parser_a431b9a85950fa8c4dd5c48fe5156136e}
+
+\begin{DoxyCompactList}\small\item\em Reduces the stacks according to a grammar rule. \end{DoxyCompactList}\item 
+virtual void {\bf raise\-Error} (const char $\ast$what)\label{class_parser_a563cdd153b64d92a4a103fc3104903f6}
+
+\begin{DoxyCompactList}\small\item\em Raises an error. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+{\bf Parser\-Table} $\ast$ {\bf table\-\_\-}\label{class_parser_ac4f90bea9c6a91160b45961a55829c17}
+
+\begin{DoxyCompactList}\small\item\em The L\-R Table to use during parsing. \end{DoxyCompactList}\item 
+{\bf Tokenizer} $\ast$ {\bf tokenizer\-\_\-}\label{class_parser_a962bef92619e66b5d1bc5db1d35c04aa}
+
+\begin{DoxyCompactList}\small\item\em The tokenizer from which to obtain tokens. \end{DoxyCompactList}\item 
+{\bf Token} $\ast$ {\bf cur\-Token}\label{class_parser_a83433a5f8c6f473001e1cd40a145316e}
+
+\begin{DoxyCompactList}\small\item\em The curren token. \end{DoxyCompactList}\item 
+int {\bf end\-Of\-Input\-\_\-}\label{class_parser_a35ec69bb19f1349411958293517eedcf}
+
+\begin{DoxyCompactList}\small\item\em The value of the end-\/of-\/input token. \end{DoxyCompactList}\item 
+bool {\bf error\-Raised\-\_\-}\label{class_parser_a290cd838c9a8d33199615770d1a04bfc}
+
+\begin{DoxyCompactList}\small\item\em Flag to signal errors. \end{DoxyCompactList}\item 
+stack$<$ int $>$ {\bf states}\label{class_parser_a9f69a3dd1a488219c30a293c327afe15}
+
+\begin{DoxyCompactList}\small\item\em The stack of states used during parsing. \end{DoxyCompactList}\item 
+stack$<$ {\bf Syntax\-Node} $\ast$ $>$ {\bf symbols}\label{class_parser_adc3d324361c3ef9d875d5e80b9f7acce}
+
+\begin{DoxyCompactList}\small\item\em The stack of symbols used during parsing. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Base class for performing an syntactic analysis over a set of tokens. A syntax tree can be produced if the methods are overriden correctly. 
+
+\subsection{Constructor \& Destructor Documentation}
+\index{Parser@{Parser}!Parser@{Parser}}
+\index{Parser@{Parser}!Parser@{Parser}}
+\subsubsection[{Parser}]{\setlength{\rightskip}{0pt plus 5cm}Parser\-::\-Parser (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_parser_a12234f6cd36b61af4b50c94a179422c1}
+
+
+\doxyref{Parser}{p.}{class_parser} default constructor. 
+
+Constructs a \doxyref{Parser}{p.}{class_parser} object without any tokenizer or L\-R table to use. These should be set before a call to the \doxyref{parse()}{p.}{class_parser_a1477a64bc216f7c564620c7f7cbdf42a} method, as well as the end-\/of-\/input value to be used during parsing. \index{Parser@{Parser}!Parser@{Parser}}
+\index{Parser@{Parser}!Parser@{Parser}}
+\subsubsection[{Parser}]{\setlength{\rightskip}{0pt plus 5cm}Parser\-::\-Parser (
+\begin{DoxyParamCaption}
+\item[{{\bf Parser\-Table} $\ast$}]{table, }
+\item[{{\bf Tokenizer} $\ast$}]{tokenizer}
+\end{DoxyParamCaption}
+)}\label{class_parser_afd0c5c051014c0fc8be7d0e94e55224b}
+
+
+\doxyref{Parser}{p.}{class_parser} constructor. 
+
+Constructs a \doxyref{Parser}{p.}{class_parser} object with the given L\-R Table and \doxyref{Tokenizer}{p.}{class_tokenizer} objects. These two objects should be dynamically allocated, as this object will make sure they are properly deleted when this object is destroyed. The end-\/of-\/input value should still be set before calling \doxyref{parse()}{p.}{class_parser_a1477a64bc216f7c564620c7f7cbdf42a}.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em table} & The L\-R Table to use. \\
+\hline
+\mbox{\tt in}  & {\em tokenizer} & The \doxyref{Tokenizer}{p.}{class_tokenizer} to use. \\
+\hline
+\end{DoxyParams}
+\index{Parser@{Parser}!$\sim$\-Parser@{$\sim$\-Parser}}
+\index{$\sim$\-Parser@{$\sim$\-Parser}!Parser@{Parser}}
+\subsubsection[{$\sim$\-Parser}]{\setlength{\rightskip}{0pt plus 5cm}Parser\-::$\sim$\-Parser (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}\label{class_parser_a3e658b5917a93a3ef648050d060e3a93}
+
+
+\doxyref{Parser}{p.}{class_parser} destructor. 
+
+Destroys a \doxyref{Parser}{p.}{class_parser} object. Deallocates the table and tokenizer attributes, as well as emptying both the states and symbols stacks. If the syntax tree root was recovered, the user should make sure it is popped from the symbols stack or its value is set to 0, as the destructor will try to deallocate all \doxyref{Syntax\-Node}{p.}{class_syntax_node} objects on the symbols stack. 
+
+\subsection{Member Function Documentation}
+\index{Parser@{Parser}!apply\-Action@{apply\-Action}}
+\index{apply\-Action@{apply\-Action}!Parser@{Parser}}
+\subsubsection[{apply\-Action}]{\setlength{\rightskip}{0pt plus 5cm}bool Parser\-::apply\-Action (
+\begin{DoxyParamCaption}
+\item[{{\bf Parser\-Table\-Action} $\ast$}]{action}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}\label{class_parser_a21bf5d22138bb364b3a9fb6442268a8c}
+
+
+Applies an action during parsing. 
+
+Applies an action obtained, either by accepting the line, pushing states and symbols onto the stacks or reducing the stacks.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em action} & The action to be applied.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A boolean value indicating if the action applied was the A\-C\-C\-E\-P\-T action. 
+\end{DoxyReturn}
+\index{Parser@{Parser}!apply\-Reduction@{apply\-Reduction}}
+\index{apply\-Reduction@{apply\-Reduction}!Parser@{Parser}}
+\subsubsection[{apply\-Reduction}]{\setlength{\rightskip}{0pt plus 5cm}bool Parser\-::apply\-Reduction (
+\begin{DoxyParamCaption}
+\item[{int}]{rule\-Number}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}\label{class_parser_a083edc0e50647019534c43f4e1ed103c}
+
+
+Applies a specific reduction. 
+
+Applies the reduction to the stacks by removing an amount of elements depending on the rule given. The amount of elements removed depends on the length of the rule applied.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em rule\-Number} & The number of the rule used for reduction.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns false. 
+\end{DoxyReturn}
+\index{Parser@{Parser}!do\-Action@{do\-Action}}
+\index{do\-Action@{do\-Action}!Parser@{Parser}}
+\subsubsection[{do\-Action}]{\setlength{\rightskip}{0pt plus 5cm}bool Parser\-::do\-Action (
+\begin{DoxyParamCaption}
+\item[{int}]{state, }
+\item[{int}]{token\-Type}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}\label{class_parser_aa2b8f303528816ae2ec23c674581a632}
+
+
+Tries to find the action to do with a pair (state, token\-Type) 
+
+Tries to find the action related to the given state and token type, and tries to apply it.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em state} & The current state used to create a key. \\
+\hline
+\mbox{\tt in}  & {\em token\-Type} & The current token type used to create a key.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A boolean value indicating if applying the action resulted in determining that the line was parsed correctly. 
+\end{DoxyReturn}
+\index{Parser@{Parser}!end\-Of\-Input@{end\-Of\-Input}}
+\index{end\-Of\-Input@{end\-Of\-Input}!Parser@{Parser}}
+\subsubsection[{end\-Of\-Input}]{\setlength{\rightskip}{0pt plus 5cm}int Parser\-::end\-Of\-Input (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\label{class_parser_a441ef306bdfb81a736acf57fb685c26b}
+
+
+Gets the value for the end-\/of-\/input token. 
+
+Gets the value used as the end-\/of-\/input on this \doxyref{Parser}{p.}{class_parser}.
+
+\begin{DoxyReturn}{Returns}
+The value used as end-\/of-\/input. 
+\end{DoxyReturn}
+\index{Parser@{Parser}!parse@{parse}}
+\index{parse@{parse}!Parser@{Parser}}
+\subsubsection[{parse}]{\setlength{\rightskip}{0pt plus 5cm}bool Parser\-::parse (
+\begin{DoxyParamCaption}
+\item[{const string \&}]{line}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}\label{class_parser_a1477a64bc216f7c564620c7f7cbdf42a}
+
+
+Parses the given line. 
+
+Parses a line, determining if it is properly written according to the syntax represented on the L\-R table. A tokenizer is used to obtain tokens from the line. If the proper methods are overriden properly, it will also create a Syntax\-Tree as a result of the parsing, and it will be available on the top of the symbols stack.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em line} & The line to parse.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A boolean value indicating if the line was syntactically correct. 
+\end{DoxyReturn}
+\index{Parser@{Parser}!set\-End\-Of\-Input@{set\-End\-Of\-Input}}
+\index{set\-End\-Of\-Input@{set\-End\-Of\-Input}!Parser@{Parser}}
+\subsubsection[{set\-End\-Of\-Input}]{\setlength{\rightskip}{0pt plus 5cm}void Parser\-::set\-End\-Of\-Input (
+\begin{DoxyParamCaption}
+\item[{int}]{end\-Of\-Input}
+\end{DoxyParamCaption}
+)}\label{class_parser_a8f4dcb66864a136f27bf7fe3cdf62c22}
+
+
+Sets the value to be used as end-\/of-\/input. 
+
+Sets the end-\/of-\/input value to be used during parsing.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em end\-Of\-Input} & The end-\/of-\/input value. \\
+\hline
+\end{DoxyParams}
+\index{Parser@{Parser}!set\-Table@{set\-Table}}
+\index{set\-Table@{set\-Table}!Parser@{Parser}}
+\subsubsection[{set\-Table}]{\setlength{\rightskip}{0pt plus 5cm}void Parser\-::set\-Table (
+\begin{DoxyParamCaption}
+\item[{{\bf Parser\-Table} $\ast$}]{table}
+\end{DoxyParamCaption}
+)}\label{class_parser_aceb9259f1b6fc88f48ecd7343a1ac5b8}
+
+
+Sets the parser's L\-R Table. 
+
+Sets the L\-R Table to be used during parsing. This object should be dynamically allocated, as the \doxyref{Parser}{p.}{class_parser} will own this object. The previous \doxyref{Parser\-Table}{p.}{class_parser_table} object will be deallocated if possible.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em table} & The L\-R Table to use. \\
+\hline
+\end{DoxyParams}
+\index{Parser@{Parser}!set\-Tokenizer@{set\-Tokenizer}}
+\index{set\-Tokenizer@{set\-Tokenizer}!Parser@{Parser}}
+\subsubsection[{set\-Tokenizer}]{\setlength{\rightskip}{0pt plus 5cm}void Parser\-::set\-Tokenizer (
+\begin{DoxyParamCaption}
+\item[{{\bf Tokenizer} $\ast$}]{tokenizer}
+\end{DoxyParamCaption}
+)}\label{class_parser_ad819d34dde68423d7af892c61585cfe3}
+
+
+Sets the parser's tokenizer object. 
+
+Sets the \doxyref{Tokenizer}{p.}{class_tokenizer} to be used during parsing. This object should be dynamically allocated, as the \doxyref{Parser}{p.}{class_parser} will own this object. The previous \doxyref{Tokenizer}{p.}{class_tokenizer} object will be deallocated if possible.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em tokenizer} & The tokenizer to use. \\
+\hline
+\end{DoxyParams}
+\index{Parser@{Parser}!table@{table}}
+\index{table@{table}!Parser@{Parser}}
+\subsubsection[{table}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf Parser\-Table} \& Parser\-::table (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\label{class_parser_a690a8669d348e9ce67ab91a398646265}
+
+
+Gets the parser's L\-R Table. 
+
+Gets the L\-R Table related to this \doxyref{Parser}{p.}{class_parser}.
+
+\begin{DoxyReturn}{Returns}
+A constant reference to the \doxyref{Parser\-Table}{p.}{class_parser_table} object. 
+\end{DoxyReturn}
+\index{Parser@{Parser}!table@{table}}
+\index{table@{table}!Parser@{Parser}}
+\subsubsection[{table}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Parser\-Table} \& Parser\-::table (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_parser_ac89aa8df577c5ce39b5107f1a32f11ff}
+
+
+Gets the parser's L\-R Table. 
+
+Gets the L\-R Table related to this \doxyref{Parser}{p.}{class_parser}.
+
+\begin{DoxyReturn}{Returns}
+A reference to the \doxyref{Parser\-Table}{p.}{class_parser_table} object. 
+\end{DoxyReturn}
+\index{Parser@{Parser}!tokenizer@{tokenizer}}
+\index{tokenizer@{tokenizer}!Parser@{Parser}}
+\subsubsection[{tokenizer}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf Tokenizer} \& Parser\-::tokenizer (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\label{class_parser_ae33b1ca43a6ad7e22c381b0654b3e218}
+
+
+Gets the parser's tokenizer object. 
+
+Gets the \doxyref{Tokenizer}{p.}{class_tokenizer} object related to this \doxyref{Parser}{p.}{class_parser}.
+
+\begin{DoxyReturn}{Returns}
+A constant reference to the \doxyref{Tokenizer}{p.}{class_tokenizer} object. 
+\end{DoxyReturn}
+\index{Parser@{Parser}!tokenizer@{tokenizer}}
+\index{tokenizer@{tokenizer}!Parser@{Parser}}
+\subsubsection[{tokenizer}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Tokenizer} \& Parser\-::tokenizer (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_parser_a87e6de9c1e896b6888f994a51933ac45}
+
+
+Gets the parser's tokenizer object. 
+
+Gets the \doxyref{Tokenizer}{p.}{class_tokenizer} object related to this \doxyref{Parser}{p.}{class_parser}.
+
+\begin{DoxyReturn}{Returns}
+A reference to the \doxyref{Tokenizer}{p.}{class_tokenizer} object. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+Parser/{\bf Parser.\-h}\item 
+Parser/{\bf Parser.\-cpp}\end{DoxyCompactItemize}

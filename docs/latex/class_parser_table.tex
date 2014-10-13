@@ -1,0 +1,79 @@
+\section{Parser\-Table Class Reference}
+\label{class_parser_table}\index{Parser\-Table@{Parser\-Table}}
+
+
+Base class used to abstract the required operations for the implementation of an L\-R Table.  
+
+
+
+
+{\ttfamily \#include $<$Parser\-Table.\-h$>$}
+
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum {\bf Action\-Type} \{ {\bfseries S\-H\-I\-F\-T}, 
+{\bfseries R\-E\-D\-U\-C\-E}, 
+{\bfseries C\-H\-A\-N\-G\-E}, 
+{\bfseries A\-C\-C\-E\-P\-T}
+ \}
+\begin{DoxyCompactList}\small\item\em Defines values for all 4 action types \-: shift, reduce, change and accept. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\bf Parser\-Table} ()
+\begin{DoxyCompactList}\small\item\em \doxyref{Parser\-Table}{p.}{class_parser_table} constructor. \end{DoxyCompactList}\item 
+virtual bool {\bf has\-Key} (const {\bf Parser\-Table\-Key} \&key) const =0\label{class_parser_table_ae6f6a5a9ef5e14abe23a17a34ec7118c}
+
+\begin{DoxyCompactList}\small\item\em Checks if the table has the given key. \end{DoxyCompactList}\item 
+virtual {\bf Parser\-Table\-Action} $\ast$ {\bf get\-Action} (const {\bf Parser\-Table\-Key} \&key) const =0\label{class_parser_table_a840f5ede032203d89d9cefb9c5f0231e}
+
+\begin{DoxyCompactList}\small\item\em Gets the action related to the given key. \end{DoxyCompactList}\item 
+virtual int {\bf get\-Rule\-Length} (int rule\-Number)=0\label{class_parser_table_a0ce324ed71e3c8838a4f364f9c7c405e}
+
+\begin{DoxyCompactList}\small\item\em Gets the length of a rule on the grammar used. \end{DoxyCompactList}\item 
+virtual int {\bf get\-Non\-Terminal\-Type} (int rule\-Number)=0\label{class_parser_table_a2c76772e5b35e3bb7ebb09651c07184b}
+
+\begin{DoxyCompactList}\small\item\em Gets the non-\/terminal type on the left side of the production on a rule. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual void {\bf fill\-Table} ()=0
+\begin{DoxyCompactList}\small\item\em Fills the L\-R Table. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Base class used to abstract the required operations for the implementation of an L\-R Table. 
+
+\subsection{Constructor \& Destructor Documentation}
+\index{Parser\-Table@{Parser\-Table}!Parser\-Table@{Parser\-Table}}
+\index{Parser\-Table@{Parser\-Table}!ParserTable@{Parser\-Table}}
+\subsubsection[{Parser\-Table}]{\setlength{\rightskip}{0pt plus 5cm}Parser\-Table\-::\-Parser\-Table (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_parser_table_abe71cc19fec36caae2b68a668f3d84a1}
+
+
+\doxyref{Parser\-Table}{p.}{class_parser_table} constructor. 
+
+Constructs a \doxyref{Parser\-Table}{p.}{class_parser_table} object. 
+
+\subsection{Member Function Documentation}
+\index{Parser\-Table@{Parser\-Table}!fill\-Table@{fill\-Table}}
+\index{fill\-Table@{fill\-Table}!ParserTable@{Parser\-Table}}
+\subsubsection[{fill\-Table}]{\setlength{\rightskip}{0pt plus 5cm}void Parser\-Table\-::fill\-Table (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [pure virtual]}}\label{class_parser_table_a24c9d033c84dee2d9c40851f04c98b65}
+
+
+Fills the L\-R Table. 
+
+Fills the L\-R Table of the \doxyref{Parser\-Table}{p.}{class_parser_table} object. This method should be overriden in a subclass. 
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+Parser/{\bf Parser\-Table.\-h}\item 
+Parser/{\bf Parser\-Table.\-cpp}\end{DoxyCompactItemize}
