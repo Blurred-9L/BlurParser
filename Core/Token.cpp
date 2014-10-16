@@ -9,10 +9,11 @@
  *  @details    Constructs a Token object.
  *
  *  @param[in]  type            The token's type.
+ *  @param[in]  start           The token's start index.
  *  @param[in]  symbol          The token's string.
  */
-Token::Token(int type, const string & symbol) :
-    type_(type), symbol_(symbol)
+Token::Token(int type, int start, const string & symbol) :
+    type_(type), start_(start), symbol_(symbol)
 {
 }
 
@@ -24,6 +25,16 @@ Token::Token(int type, const string & symbol) :
 int Token::type() const
 {
     return type_;
+}
+
+/**
+ *  @details    Gets the start attribute from the token.
+ *
+ *  @return     The value of the start attribute.
+ */
+int Token::start() const
+{
+    return start_;
 }
 
 /**
@@ -54,6 +65,16 @@ string & Token::symbol()
 void Token::setType(int type)
 {
     type_ = type;
+}
+
+/**
+ *  @details    Sets the token's start attribute.
+ *
+ *  @param[in]  start           The start index of the token.
+ */
+void Token::setStart(int start)
+{
+    start_ = start;
 }
 
 /**

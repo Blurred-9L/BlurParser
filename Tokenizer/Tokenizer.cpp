@@ -16,7 +16,8 @@
  *              getToken().
  */
 Tokenizer::Tokenizer() :
-    automata_(0), keywords_(0), line_(), charIdx(-1)
+    automata_(0), keywords_(0), line_(), charIdx(-1),
+    tokenStartIndex(-1)
 {
 }
 
@@ -153,9 +154,9 @@ Token * Tokenizer::getToken()
     if ((charIdx < line_.length()) && (automata_ != 0) && (keywords_ != 0)) {
         lastState = getTokenString(symbol);
         if (keywords_->isKeyword(symbol)) {
-            token = new Token(keywords_->getKeywordId(symbol), symbol);
+            token = new Token(keywords_->getKeywordId(symbol), tokenStartIndex, symbol);
         } else if (automata_->isAcceptState(lastState)) {
-            token = new Token(automata_->getTokenType(lastState), symbol);
+            token = new Token(automata_->getTokenType(lastState), tokenStartIndex, symbol);
         }
     }
     
@@ -184,10 +185,15 @@ int Tokenizer::getTokenString(string & symbol)
     unsigned lineLength = line_.length();
     bool done = false;
     bool error = false;
+    bool gotFirstChar = false;
     
     while ((!done) && (!error) && (charIdx < lineLength)) {
         state = automata_->nextState(state, line_[charIdx]);
         if (state > 0) {
+            if (!gotFirstChar) {
+                gotFirstChar = true;
+                tokenStartIndex = charIdx;
+            }
             symbol.push_back(line_[charIdx]);
             if (automata_->isAcceptState(state)) {
                 if (!automata_->includeNextChar(state, line_, charIdx)) {

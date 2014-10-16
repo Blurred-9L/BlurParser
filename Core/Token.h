@@ -19,20 +19,26 @@ class Token {
 private:
     /// The token's type.
     int type_;
+    /// The index on which the token starts.
+    int start_;
     /// The token's string.
     string symbol_;
     
 public:
     /// Token constructor.
-    Token(int type, const string & symbol);
+    Token(int type, int start, const string & symbol);
     /// Gets the token's type.
     int type() const;
+    /// Gets the token's start.
+    int start() const;
     /// Gets the token's symbol.
     const string & symbol() const;
     /// Gets the token's symbol.
     string & symbol();
     /// Sets the token's type.
     void setType(int type);
+    /// Sets the token's start.
+    void setStart(int start);
     /// Sets the token's symbol.
     void setSymbol(const string & symbol);
 };

@@ -30,6 +30,8 @@ private:
     string line_;
     /// The index of the current char analyzed.
     int charIdx;
+    /// The index at which the current token started.
+    int tokenStartIndex;
 
     /// Gets the string to be used on the next token.
     int getTokenString(string & symbol);

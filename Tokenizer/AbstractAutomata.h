@@ -48,6 +48,8 @@ public:
     virtual bool includeNextChar(int state, const string & line, int charIdx) const = 0;
     /// Gets the type of the token recognized at the given state.
     virtual int getTokenType(int state) = 0;
+    /// Gets the name of the given token type.
+    virtual const char * getTokenName(int tokenType) = 0;
 };
 
 #endif /// NOT ABSTRACT_AUTOMATA_H
