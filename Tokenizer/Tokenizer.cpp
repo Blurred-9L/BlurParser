@@ -8,30 +8,35 @@
 #include "KeywordSet.h"
 
 #include "../Core/Token.h"
+#include "../Core/LineFileReader.h"
 
 /**
  *  @details    Constructs a Tokenizer object. The object constructed
- *              does not have a set automata or keyword set, so the
- *              user should remember to set them before calling
+ *              does not have a set automata, keyword set or line reader,
+ *              so the user should remember to set them before calling
  *              getToken().
  */
 Tokenizer::Tokenizer() :
-    automata_(0), keywords_(0), line_(), charIdx(-1),
+    automata_(0), keywords_(0), lineReader_(0), line_(), charIdx(-1),
     tokenStartIndex(-1)
 {
 }
 
 /**
- *  @details    Constructs a Tokenizer object with the given automata and
- *              keyword set.
+ *  @details    Constructs a Tokenizer object with the given automata,
+ *              keyword set and line reader.
  *
  *  @param[in]  automata        The automata to use. Should be dynamically
  *                              allocated.
  *  @param[in]  keywords        The keyword set to use. Should be dynamically
  *                              allocated.
+ *  @param[in]  lineReader      The lineReader set to use. Should be dynamically
+ *                              allocated.
  */
-Tokenizer::Tokenizer(AbstractAutomata * automata, KeywordSet * keywords) :
-    automata_(automata), keywords_(keywords), line_(), charIdx(-1)
+Tokenizer::Tokenizer(AbstractAutomata * automata, KeywordSet * keywords,
+                     LineFileReader * lineReader) :
+    automata_(automata), keywords_(keywords), lineReader_(lineReader),
+    line_(), charIdx(-1)
 {
 }
 
@@ -45,6 +50,9 @@ Tokenizer::~Tokenizer()
     }
     if (keywords_ != 0) {
         delete keywords_;
+    }
+    if (lineReader_ != 0) {
+        delete lineReader_;
     }
 }
 
@@ -89,6 +97,26 @@ KeywordSet & Tokenizer::keywords()
 }
 
 /**
+ *  @details    Gets the lineReader attribute from the Tokenizer.
+ *
+ *  @return     A constant pointer to the lineReader attribute.
+ */
+const LineFileReader * Tokenizer::lineReader() const
+{
+    return lineReader_;
+}
+
+/**
+ *  @details    Gets the lineReader attribute from the Tokenizer.
+ *
+ *  @return     A reference pointer to the lineReader attribute.
+ */
+LineFileReader * Tokenizer::lineReader()
+{
+    return lineReader_;
+}
+
+/**
  *  @details    Sets the automata to be used when tokenizing
  *              the given input string. The automata passed
  *              should be dynamically allocated. If a previous
@@ -126,6 +154,24 @@ void Tokenizer::setKeywords(KeywordSet * keywords)
 }
 
 /**
+ *  @details    Sets the line reader to be used when this tokenizer
+ *              consumes a line. The lineReader passed should have
+ *              been dynamically allocated. If a previous line reader
+ *              had been set, it will be deleted. Since the line reader
+ *              is not strictly necessary for the Tokenizer to
+ *              function properly, it can be set to a 0 value.
+ *
+ *  @param[in]  lineReader      The lineReader to use.
+ */
+void Tokenizer::setLineReader(LineFileReader * lineReader)
+{
+    if (lineReader_ != 0) {
+        delete lineReader_;
+    }
+    lineReader_ = lineReader;
+}
+
+/**
  *  @details    Sets the line to use when tokenizing and also
  *              resets the index used when iterating over it.
  *
@@ -150,6 +196,12 @@ Token * Tokenizer::getToken()
     Token * token = 0;
     string symbol;
     int lastState;
+    
+    if (lineReader_ != 0) {
+        while (line_.empty() && lineReader_->hasNext()) {
+            lineReader_->sendNextLine(*this);
+        }
+    }
     
     if ((charIdx < line_.length()) && (automata_ != 0) && (keywords_ != 0)) {
         lastState = getTokenString(symbol);
