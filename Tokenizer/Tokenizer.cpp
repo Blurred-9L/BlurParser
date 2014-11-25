@@ -9,6 +9,7 @@
 
 #include "../Core/Token.h"
 #include "../Core/LineFileReader.h"
+#include "../Core/ErrorKeeper.h"
 
 /**
  *  @details    Constructs a Tokenizer object. The object constructed
@@ -17,8 +18,8 @@
  *              getToken().
  */
 Tokenizer::Tokenizer() :
-    automata_(0), keywords_(0), lineReader_(0), line_(), charIdx(-1),
-    tokenStartIndex(-1)
+    automata_(0), keywords_(0), lineReader_(0), errorKeeper_(0), line_(),
+    charIdx(-1), tokenStartIndex(-1)
 {
 }
 
@@ -32,11 +33,13 @@ Tokenizer::Tokenizer() :
  *                              allocated.
  *  @param[in]  lineReader      The lineReader set to use. Should be dynamically
  *                              allocated.
+ *  @param[in]  errorKeeper     The errorKeeper set to use. Should be dynamically
+ *                              allocated.
  */
 Tokenizer::Tokenizer(AbstractAutomata * automata, KeywordSet * keywords,
-                     LineFileReader * lineReader) :
+                     LineFileReader * lineReader, ErrorKeeper * errorKeeper) :
     automata_(automata), keywords_(keywords), lineReader_(lineReader),
-    line_(), charIdx(-1)
+    errorKeeper_(errorKeeper), line_(), charIdx(-1), tokenStartIndex(-1)
 {
 }
 
@@ -109,11 +112,31 @@ const LineFileReader * Tokenizer::lineReader() const
 /**
  *  @details    Gets the lineReader attribute from the Tokenizer.
  *
- *  @return     A reference pointer to the lineReader attribute.
+ *  @return     A pointer to the lineReader attribute.
  */
 LineFileReader * Tokenizer::lineReader()
 {
     return lineReader_;
+}
+
+/**
+ *  @details    Gets the errorKeeper attribute from the Tokenizer.
+ *
+ *  @return     A constant pointer to the errorKeeper attribute.
+ */
+const ErrorKeeper * Tokenizer::errorKeeper() const
+{
+    return errorKeeper_;
+}
+
+/**
+ *  @details    Gets the errorKeeper attribute from the Tokenizer.
+ *
+ *  @return     A pointer to the errorKeeper attribute.
+ */
+ErrorKeeper * Tokenizer::errorKeeper()
+{
+    return errorKeeper_;
 }
 
 /**
@@ -172,6 +195,24 @@ void Tokenizer::setLineReader(LineFileReader * lineReader)
 }
 
 /**
+ *  @details    Sets the error keeper to be used whenever an error is
+ *              raised by this tokenizer. The errorKeeper passed should
+ *              have been dynamically allocated. If a previous error keeper
+ *              had been set, it will be deleted. Since the error keeper
+ *              is not strictly necessary for the Tokenizer to
+ *              function properly, it can be set to a 0 value.
+ *
+ *  @param[in]  errorKeeper     The errorKeeper to use.
+ */
+void Tokenizer::setErrorKeeper(ErrorKeeper * errorKeeper)
+{
+    if (errorKeeper_ != 0) {
+        delete errorKeeper_;
+    }
+    errorKeeper_ = errorKeeper;
+}
+
+/**
  *  @details    Sets the line to use when tokenizing and also
  *              resets the index used when iterating over it.
  *
@@ -213,6 +254,23 @@ Token * Tokenizer::getToken()
     }
     
     return token;
+}
+
+/**
+ *  @details    Checks if an error has ocurred during the execution
+ *              of the tokenizer.
+ *
+ *  @return     A boolean value indicating if an error has occur.
+ */
+bool Tokenizer::hasError() const
+{
+    bool errorExists = false;
+    
+    if (errorKeeper_ != 0) {
+        errorExists = errorKeeper_->hasError();
+    }
+    
+    return errorExists;
 }
 
 /////////////
@@ -259,9 +317,13 @@ int Tokenizer::getTokenString(string & symbol)
     }
     
     if (error) {
-        /// No implementation yet!
+        if (errorKeeper_ != 0) {
+            errorKeeper_->addError(LEXIC_INPUT_ERROR, "Lexic Error: Wrong token formation | Unexpected symbol.");
+        }
     } else if (!done) {
-        /// no implementation yet!
+        if (errorKeeper_ != 0) {
+            errorKeeper_->addError(TOKEN_NO_END_ERROR, "Lexic Error: Could not finish building last token.");
+        }
     }
     
     return state;

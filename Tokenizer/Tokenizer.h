@@ -12,7 +12,11 @@ using std::string;
 class AbstractAutomata;
 class KeywordSet;
 class LineFileReader;
+class ErrorKeeper;
 class Token;
+
+#define LEXIC_INPUT_ERROR     1
+#define TOKEN_NO_END_ERROR    2
 
 /**
  *  @class  Tokenizer
@@ -29,6 +33,8 @@ private:
     KeywordSet * keywords_;
     /// The tokenizer's related file reader object.
     LineFileReader * lineReader_;
+    /// The tokenizer's related error keeper object.
+    ErrorKeeper * errorKeeper_;
     /// The line to be tokenized.
     string line_;
     /// The index of the current char analyzed.
@@ -43,7 +49,8 @@ public:
     /// Tokenizer defualt constructor.
     Tokenizer();
     /// Tokenizer constructor.
-    Tokenizer(AbstractAutomata * automata, KeywordSet * keywords, LineFileReader * lineReader);
+    Tokenizer(AbstractAutomata * automata, KeywordSet * keywords,
+              LineFileReader * lineReader = 0, ErrorKeeper * errorKeeper = 0);
     /// Tokenizer destructor.
     ~Tokenizer();
     /// Gets the automata used by this tokenizer.
@@ -58,16 +65,24 @@ public:
     const LineFileReader * lineReader() const;
     /// Gets the line reader used by this tokenizer.
     LineFileReader * lineReader();
+    /// Gets the error keeper used by this tokenizer.
+    const ErrorKeeper * errorKeeper() const;
+    /// Gets the error keeper usedd by this tokenizer.
+    ErrorKeeper * errorKeeper();
     /// Sets the automata used on this tokenizer.
     void setAutomata(AbstractAutomata * automata);
     /// Sets the keyword set used on this tokenizer
     void setKeywords(KeywordSet * keywords);
     /// Sets the line reader used by this tokenizer.
     void setLineReader(LineFileReader * lineReader);
+    /// Sets the error keeper used by this tokenizer.
+    void setErrorKeeper(ErrorKeeper * errorKeeper);
     /// Sets the line to be analyzed.
     void setLine(const string & line);
     /// Gets the next token from the line.
     Token * getToken();
+    /// Checks if an error has ocurred.
+    bool hasError() const;
 };
 
 #endif /// NOT TOKENIZER_H
