@@ -17,6 +17,10 @@ class SyntaxNode;
 class Tokenizer;
 class Token;
 
+#define UNEXPECTED_TOKEN_ERROR      3
+#define UNKNOWN_TRANSITION_ERROR    4
+#define FATAL_ERROR                 5
+
 /**
  *  @class  Parser
  *
@@ -52,7 +56,7 @@ protected:
     /// Reduces the stacks according to a grammar rule.
     virtual SyntaxNode * reduce(int ruleNumber) = 0;
     /// Raises an error.
-    virtual void raiseError(const char * what);
+    virtual void raiseError(int errorCode, const char * what);
     
 public:
     /// Parser default constructor.
@@ -77,8 +81,8 @@ public:
     void setTokenizer(Tokenizer * tokenizer);
     /// Sets the value to be used as end-of-input.
     void setEndOfInput(int endOfInput);
-    /// Parses the given line.
-    virtual bool parse(const string & line);
+    /// Parses all input given by the tokenizer.
+    virtual bool parse();
     /// Gets the root of the syntax tree.
     virtual SyntaxNode * getSyntaxTreeRoot() = 0;
 };

@@ -159,20 +159,18 @@ void Parser::setEndOfInput(int endOfInput)
 }
 
 /**
- *  @details    Parses a line, determining if it is properly written
+ *  @details    Parses the input, determining if it is properly written
  *              according to the syntax represented on the LR table.
- *              A tokenizer is used to obtain tokens from the line.
+ *              A tokenizer is used to obtain tokens from the input.
  *              If the proper methods are overriden properly, it will
  *              also create a SyntaxTree as a result of the parsing,
  *              and it will be available on the top of the symbols
- *              stack.
- *
- *  @param[in]  line            The line to parse.
+ *              stack. This method can be overriden.
  *
  *  @return     A boolean value indicating if the line was syntactically
  *              correct.
  */
-bool Parser::parse(const string & line)
+bool Parser::parse()
 {
     bool done = false;
     bool ok;
@@ -180,7 +178,6 @@ bool Parser::parse(const string & line)
     while (!states.empty()) { states.pop(); }
     while (!symbols.empty()) { symbols.pop(); }
     states.push(0);
-    tokenizer_->setLine(line);
     errorRaised_ = false;
     
     curToken = tokenizer_->getToken();
@@ -225,7 +222,7 @@ bool Parser::doAction(int state, int tokenType) {
         done = applyAction(action);
         delete action;
     } else {
-        raiseError("Could not find transition according to input given.");
+        raiseError(UNEXPECTED_TOKEN_ERROR, "Could not find transition according to input given.");
     }
     
     return done;
@@ -255,7 +252,7 @@ bool Parser::applyAction(ParserTableAction * action)
         done = applyReduction(action->value());
         break;
     case ParserTable::CHANGE:
-        raiseError("Reached part of code that shouldn't be reached.");
+        raiseError(FATAL_ERROR, "Reached part of code that shouldn't be reached.");
         break;
     case ParserTable::ACCEPT:
         done = true;
@@ -298,13 +295,21 @@ bool Parser::applyReduction(int ruleNumber)
         symbols.push(nextNode);
         delete action;
     } else {
-        raiseError("Could not find transiton after applying reduction.");
+        raiseError(UNKNOWN_TRANSITION_ERROR, "Could not find transiton after applying reduction.");
     }
     
     return done;
 }
 
-void Parser::raiseError(const char * what)
+/**
+ *  @details    Raises an error by specifying an error code and
+ *              a string describing the reason for the error. This method
+ *              can be overriden and it is recommended to do so.
+ *
+ *  @param[in]  errorCode       The error code.
+ *  @param[in]  what            The description of the error.
+ */
+void Parser::raiseError(int errorCode, const char * what)
 {
     errorRaised_ = true;
 }
