@@ -40,12 +40,12 @@ public:
     unsigned nInputs() const;
     /// Gets the number of terminal states.
     unsigned nTerminalStates() const;
+    /// Checks if the state remains valid on next character.
+    virtual bool includeNextChar(int state, const string & line, int charIdx) const;
     /// Gets the next state based on input.
     virtual int nextState(int state, char input) const = 0;
     /// Checks if a state is a terminal state.
     virtual bool isAcceptState(int state) const = 0;
-    /// Checks if the state remains valid on next character.
-    virtual bool includeNextChar(int state, const string & line, int charIdx) const = 0;
     /// Gets the type of the token recognized at the given state.
     virtual int getTokenType(int state) = 0;
     /// Gets the name of the given token type.

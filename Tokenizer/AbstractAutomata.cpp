@@ -93,3 +93,30 @@ unsigned AbstractAutomata::nTerminalStates() const
 {
     return nTerminalStates_;
 }
+
+/**
+ *  @details    Default definition of the includeNextChar() method. This method
+ *              will check if the next character on the input can be added to
+ *              the current token.
+ *
+ *  @param[in]  state           The current state on the automata.
+ *  @param[in]  line            The line being currently analyzed.
+ *  @param[in]  charIdx         The current index on the line string.
+ *
+ *  @return     Returns a boolean value indicating if the following character
+ *              on the input can be added to the current token.
+ */
+bool AbstractAutomata::includeNextChar(int state, const string & line, int charIdx) const
+{
+    bool ok = false;
+    int newState;
+    
+    if (charIdx + 1 < line.length()) {
+        newState = nextState(state, line[charIdx + 1]);
+        if (newState > 0) {
+            ok = true;
+        }
+    }
+    
+    return ok;
+}
