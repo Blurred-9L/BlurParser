@@ -16,6 +16,8 @@ class LineFileReader {
 private:
     /// The file object
     ifstream file;
+    /// The current line number.
+    int lineNumber;
     
 public:
     /// LineFileReader constructor.

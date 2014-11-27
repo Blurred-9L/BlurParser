@@ -41,6 +41,8 @@ private:
     int charIdx;
     /// The index at which the current token started.
     int tokenStartIndex;
+    /// The line on which the current token was found.
+    int tokenLineNumber_;
 
     /// Gets the string to be used on the next token.
     int getTokenString(string & symbol);
@@ -69,6 +71,8 @@ public:
     const ErrorKeeper * errorKeeper() const;
     /// Gets the error keeper usedd by this tokenizer.
     ErrorKeeper * errorKeeper();
+    /// Gets the line number.
+    int tokenLineNumber() const;
     /// Sets the automata used on this tokenizer.
     void setAutomata(AbstractAutomata * automata);
     /// Sets the keyword set used on this tokenizer
@@ -79,6 +83,8 @@ public:
     void setErrorKeeper(ErrorKeeper * errorKeeper);
     /// Sets the line to be analyzed.
     void setLine(const string & line);
+    /// Sets the line number.
+    void setTokenLineNumber(int tokenLineNumber);
     /// Gets the next token from the line.
     Token * getToken();
     /// Checks if an error has ocurred.

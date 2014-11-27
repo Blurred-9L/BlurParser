@@ -19,7 +19,7 @@
  */
 Tokenizer::Tokenizer() :
     automata_(0), keywords_(0), lineReader_(0), errorKeeper_(0), line_(),
-    charIdx(-1), tokenStartIndex(-1)
+    charIdx(-1), tokenStartIndex(-1), tokenLineNumber_(0)
 {
 }
 
@@ -140,6 +140,16 @@ ErrorKeeper * Tokenizer::errorKeeper()
 }
 
 /**
+ *  @details    Gets the tokenLineNumber attribute of the tokenizer.
+ *
+ *  @return     The value of the tokenLineNumber attribute.
+ */
+int Tokenizer::tokenLineNumber() const
+{
+    return tokenLineNumber_;
+}
+
+/**
  *  @details    Sets the automata to be used when tokenizing
  *              the given input string. The automata passed
  *              should be dynamically allocated. If a previous
@@ -225,6 +235,17 @@ void Tokenizer::setLine(const string & line)
 }
 
 /**
+ *  @details    Sets the line number on which the given tokens
+ *              were found.
+ *
+ *  @param[in]  tokenLineNumber The line number.
+ */
+void Tokenizer::setTokenLineNumber(int tokenLineNumber)
+{
+    tokenLineNumber_ = tokenLineNumber;
+}
+
+/**
  *  @details    Gets the next token from the given input string.
  *              The token returned will be dynamically allocated,
  *              so one should remember to deallocate it later.
@@ -247,9 +268,11 @@ Token * Tokenizer::getToken()
     if ((charIdx < line_.length()) && (automata_ != 0) && (keywords_ != 0)) {
         lastState = getTokenString(symbol);
         if (keywords_->isKeyword(symbol)) {
-            token = new Token(keywords_->getKeywordId(symbol), tokenStartIndex, symbol);
+            token = new Token(keywords_->getKeywordId(symbol), tokenStartIndex,
+                              tokenLineNumber_, symbol);
         } else if (automata_->isAcceptState(lastState)) {
-            token = new Token(automata_->getTokenType(lastState), tokenStartIndex, symbol);
+            token = new Token(automata_->getTokenType(lastState), tokenStartIndex,
+                              tokenLineNumber_, symbol);
         }
     }
     

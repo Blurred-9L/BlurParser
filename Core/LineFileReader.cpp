@@ -14,7 +14,7 @@ using std::getline;
  *  @param[in]  filename        The filename of the file to open.
  */
 LineFileReader::LineFileReader(const char * filename) :
-    file(filename)
+    file(filename), lineNumber(1)
 {
 }
 
@@ -49,6 +49,7 @@ void LineFileReader::sendNextLine(Tokenizer & tokenizer)
     
     getline(file, nextLine);
     tokenizer.setLine(nextLine);
+    tokenizer.setTokenLineNumber(++lineNumber);
 }
 
 /**
@@ -63,6 +64,7 @@ bool LineFileReader::open(const char * filename)
 {
     close();
     file.open(filename);
+    lineNumber = 1;
     
     return file.is_open();
 }

@@ -10,10 +10,11 @@
  *
  *  @param[in]  type            The token's type.
  *  @param[in]  start           The token's start index.
+ *  @param[in]  lineNumber      The token's line number.
  *  @param[in]  symbol          The token's string.
  */
-Token::Token(int type, int start, const string & symbol) :
-    type_(type), start_(start), symbol_(symbol)
+Token::Token(int type, int start, int lineNumber, const string & symbol) :
+    type_(type), start_(start), lineNumber_(lineNumber), symbol_(symbol)
 {
 }
 
@@ -35,6 +36,16 @@ int Token::type() const
 int Token::start() const
 {
     return start_;
+}
+
+/**
+ *  @details    Gets the lineNumber attribute from the token.
+ *
+ *  @return     The value of the lineNumber attribute.
+ */
+int Token::lineNumber() const
+{
+    return lineNumber_;
 }
 
 /**
@@ -75,6 +86,16 @@ void Token::setType(int type)
 void Token::setStart(int start)
 {
     start_ = start;
+}
+
+/**
+ *  @details    Sets the token's lineNumber attribute.
+ *
+ *  @param[in]  lineNumber      The lineNumber of the token.
+ */
+void Token::setLineNumber(int lineNumber)
+{
+    lineNumber_ = lineNumber;
 }
 
 /**
