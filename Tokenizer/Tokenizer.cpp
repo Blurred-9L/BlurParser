@@ -57,6 +57,9 @@ Tokenizer::~Tokenizer()
     if (lineReader_ != 0) {
         delete lineReader_;
     }
+    if (errorKeeper_ != 0) {
+        delete errorKeeper_;
+    }
 }
 
 /**
@@ -260,7 +263,7 @@ Token * Tokenizer::getToken()
     int lastState;
     
     if (lineReader_ != 0) {
-        while (line_.empty() && lineReader_->hasNext()) {
+        while (charIdx >= line_.length() && lineReader_->hasNext()) {
             lineReader_->sendNextLine(*this);
         }
     }

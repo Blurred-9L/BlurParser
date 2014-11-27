@@ -22,7 +22,7 @@ AbstractAutomata::AbstractAutomata() :
 AbstractAutomata::~AbstractAutomata()
 {
     if (transitions != 0) {
-        for (int i = 0; i < nInputs_; i++) {
+        for (int i = 0; i < nStates_; i++) {
             delete [] transitions[i];
         }
         delete [] transitions;
