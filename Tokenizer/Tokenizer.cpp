@@ -11,6 +11,8 @@
 #include "../Core/LineFileReader.h"
 #include "../Core/ErrorKeeper.h"
 
+#include <cctype>
+
 /**
  *  @details    Constructs a Tokenizer object. The object constructed
  *              does not have a set automata, keyword set or line reader,
@@ -263,7 +265,7 @@ Token * Tokenizer::getToken()
     int lastState;
     
     if (lineReader_ != 0) {
-        while (charIdx >= line_.length() && lineReader_->hasNext()) {
+        while ((charIdx >= line_.length() || spaceOnlyLine()) && lineReader_->hasNext()) {
             lineReader_->sendNextLine(*this);
         }
     }
@@ -353,4 +355,24 @@ int Tokenizer::getTokenString(string & symbol)
     }
     
     return state;
+}
+
+/**
+ *  @details    Checks if the line to be tokenized only has whitespaces.
+ *
+ *  @return     A boolean value indicating if a whitespace only line has
+ *              been set or read.
+ */
+bool Tokenizer::spaceOnlyLine()
+{
+    int size = line_.size();
+    bool spaceOnly = true;
+    
+    for (int i = 0; i < size && spaceOnly; i++) {
+        if (!isspace(line_[i])) {
+            spaceOnly = false;
+        }
+    }
+    
+    return spaceOnly;
 }
