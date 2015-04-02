@@ -45,9 +45,9 @@ bool AbstractAutomata::loadMatrix(const char * filename)
         matrixFile >> nStates_ >> nInputs_;
         matrixFile >> nTerminalStates_;
         transitions = new int * [nStates_];
-        for (int i = 0; i < nStates_; i++) {
+        for (unsigned i = 0; i < nStates_; i++) {
             transitions[i] = new int [nInputs_];
-            for (int j = 0; j < nInputs_; j++) {
+            for (unsigned j = 0; j < nInputs_; j++) {
                 matrixFile >> transitions[i][j];
             }
         }
@@ -109,7 +109,7 @@ bool AbstractAutomata::includeNextChar(int state, const string & line, int charI
     bool ok = false;
     int newState;
     
-    if (charIdx + 1 < line.length()) {
+    if (charIdx + 1 < (int)line.length()) {
         newState = nextState(state, line[charIdx + 1]);
         if (newState > 0) {
             ok = true;
@@ -131,7 +131,7 @@ bool AbstractAutomata::includeNextChar(int state, const string & line, int charI
 void AbstractAutomata::clearMatrix()
 {
     if (transitions != 0) {
-        for (int i = 0; i < nStates_; i++) {
+        for (unsigned i = 0; i < nStates_; i++) {
             if (transitions[i] != 0) {
                 delete [] transitions[i];
             }

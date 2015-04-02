@@ -41,7 +41,7 @@ bool KeywordSet::isKeyword(const string & symbol) const
  *              the returned id does not conflict with the ids of tokens
  *              returned by the AbstractAutomata subclass used.
  *
- *  @return     The id of 
+ *  @return     The id of the keyword
  */
 int KeywordSet::getKeywordId(const string & symbol) const
 {
