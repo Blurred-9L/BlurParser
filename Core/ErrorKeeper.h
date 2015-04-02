@@ -24,7 +24,7 @@ public:
     /// Tells if there was an error or not.
     virtual bool hasError() const = 0;
     /// Extracts an error from the error keeper.
-    virtual ErrorData & nextError() = 0;
+    virtual ErrorData nextError() = 0;
     /// Removes all errors from the keeper.
     virtual void clear() = 0;
 };
