@@ -26,10 +26,13 @@ protected:
     unsigned nInputs_;
     /// The number of terminal states.
     unsigned nTerminalStates_;
+    
+    /// Releases resources used by the transitions table
+    void clearMatrix();
 
 public:
     /// AbstractAutomata constructor.
-    AbstractAutomata();
+    explicit AbstractAutomata(const char * filename = 0);
     /// AbstractAutomata destructor.
     virtual ~AbstractAutomata();
     /// Loads the matrix of transitions.

@@ -11,9 +11,10 @@ using std::ifstream;
 /**
  *  @details    Constructs an AbstractAutomata object.
  */
-AbstractAutomata::AbstractAutomata() :
+AbstractAutomata::AbstractAutomata(const char * filename) :
     transitions(0), nStates_(0), nInputs_(0), nTerminalStates_(0)
 {
+    loadMatrix(filename);
 }
 
 /**
@@ -21,12 +22,7 @@ AbstractAutomata::AbstractAutomata() :
  */
 AbstractAutomata::~AbstractAutomata()
 {
-    if (transitions != 0) {
-        for (int i = 0; i < nStates_; i++) {
-            delete [] transitions[i];
-        }
-        delete [] transitions;
-    }
+    clearMatrix();
 }
 
 /**
@@ -43,6 +39,8 @@ bool AbstractAutomata::loadMatrix(const char * filename)
     ifstream matrixFile(filename);
     bool matrixLoaded = false;
     
+    /// Clears matrix if it's been initialized.
+    clearMatrix();
     if (matrixFile.is_open()) {
         matrixFile >> nStates_ >> nInputs_;
         matrixFile >> nTerminalStates_;
@@ -119,4 +117,26 @@ bool AbstractAutomata::includeNextChar(int state, const string & line, int charI
     }
     
     return ok;
+}
+
+/////////////
+// Private //
+/////////////
+
+/**
+ *  @details    Returns the transitions table to an uninitialized state, either
+ *              as a result of the object performing its cleanup duties or in
+ *              order to load a different matrix.
+ */
+void AbstractAutomata::clearMatrix()
+{
+    if (transitions != 0) {
+        for (int i = 0; i < nStates_; i++) {
+            if (transitions[i] != 0) {
+                delete [] transitions[i];
+            }
+        }
+        delete [] transitions;
+        transitions = 0;
+    }
 }
