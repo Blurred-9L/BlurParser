@@ -256,29 +256,31 @@ void Tokenizer::setTokenLineNumber(int tokenLineNumber)
  *              so one should remember to deallocate it later.
  *
  *  @return     The token found or 0 if no more tokens can be
- *              extracted.
+ *              extracted. 0 is also returned if an error ocurred.
  */
 Token * Tokenizer::getToken()
 {
     Token * token = 0;
+    TokenData tokenData;
     string symbol;
-    int lastState;
     
     if (lineReader_ != 0) {
-        while ((charIdx >= line_.length() || spaceOnlyLine()) && lineReader_->hasNext()) {
+        while ((charIdx >= (int)line_.length() || spaceOnlyLine()) && lineReader_->hasNext()) {
             lineReader_->sendNextLine(*this);
         }
     }
     
-    if ((charIdx < line_.length()) && (automata_ != 0) && (keywords_ != 0)) {
-        lastState = getTokenString(symbol);
+    if ((charIdx < (int)line_.length()) && (automata_ != 0) && (keywords_ != 0)) {
+        tokenData = buildToken();
+        symbol = line_.substr(tokenData.start(), tokenData.length());
         if (keywords_->isKeyword(symbol)) {
-            token = new Token(keywords_->getKeywordId(symbol), tokenStartIndex,
+            token = new Token(keywords_->getKeywordId(symbol), tokenData.start(),
                               tokenLineNumber_, symbol);
-        } else if (automata_->isAcceptState(lastState)) {
-            token = new Token(automata_->getTokenType(lastState), tokenStartIndex,
+        } else if (automata_->isAcceptState(tokenData.state())) {
+            token = new Token(automata_->getTokenType(tokenData.state()), tokenData.start(),
                               tokenLineNumber_, symbol);
         }
+        charIdx = tokenData.start() + tokenData.length();
     }
     
     return token;
@@ -307,41 +309,35 @@ bool Tokenizer::hasError() const
 
 /**
  *  @details    Algorithm used to build the substring of the
- *              input string to be included on the next token.
+ *              input string to be included on the next token. At each
+ *              step a TokenData object is modified so that it can be
+ *              used later to extract the token from the line.
  *
- *  @param[out]  symbol          The string on which to copy the token's symbol.
- *
- *  @return     Returns the state at which the algorithm stopped. If
- *              an error ocurred, -1 is returned. If the algorithm 
- *              stopped because the end of the string was reached
- *              before a full token was found, the last state is
- *              returned.
+ *  @return     Returns a TokenData object containing the start, length
+ *              and final state visited which will be used to get the
+ *              next token.
  */
-int Tokenizer::getTokenString(string & symbol)
+TokenData Tokenizer::buildToken()
 {
-    int state = 0;
-    unsigned lineLength = line_.length();
-    bool done = false;
-    bool error = false;
-    bool gotFirstChar = false;
+    int start = charIdx, state = 0, end = start;
+    TokenData tokenData(start, 0, 0);
+    bool done = false, error = false;
     
-    while ((!done) && (!error) && (charIdx < lineLength)) {
-        state = automata_->nextState(state, line_[charIdx]);
+    while ((!done) && (!error) && (end < (int)line_.length())) {
+        state = automata_->nextState(state, line_[end]);
         if (state > 0) {
-            if (!gotFirstChar) {
-                gotFirstChar = true;
-                tokenStartIndex = charIdx;
-            }
-            symbol.push_back(line_[charIdx]);
+            tokenData = TokenData(tokenData.start(), tokenData.length() + 1, state);
             if (automata_->isAcceptState(state)) {
-                if (!automata_->includeNextChar(state, line_, charIdx)) {
+                if (!automata_->includeNextChar(state, line_, end)) {
                     done = true;
                 }
             }
         } else if (state < 0) {
             error = true;
+        } else {
+            tokenData = TokenData(tokenData.start() + 1, tokenData.length(), state);
         }
-        charIdx++;
+        end++;
     }
     
     if (error) {
@@ -354,7 +350,7 @@ int Tokenizer::getTokenString(string & symbol)
         }
     }
     
-    return state;
+    return tokenData;
 }
 
 /**

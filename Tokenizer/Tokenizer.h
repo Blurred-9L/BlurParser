@@ -9,14 +9,16 @@
 #include <string>
 using std::string;
 
+#include "../Core/TokenData.h"
+
 class AbstractAutomata;
 class KeywordSet;
 class LineFileReader;
 class ErrorKeeper;
 class Token;
 
-#define LEXIC_INPUT_ERROR     1
-#define TOKEN_NO_END_ERROR    2
+#define LEXIC_INPUT_ERROR     -1
+#define TOKEN_NO_END_ERROR    -2
 
 /**
  *  @class  Tokenizer
@@ -44,8 +46,10 @@ private:
     /// The line on which the current token was found.
     int tokenLineNumber_;
 
-    /// Gets the string to be used on the next token.
-    int getTokenString(string & symbol);
+    /// Gets the data to partition the line where the next token is found
+    TokenData buildToken();
+    /// Checks if a string only contains whitespaces.
+    bool spaceOnlyLine();
 
 public:
     /// Tokenizer defualt constructor.
