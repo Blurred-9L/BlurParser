@@ -15,7 +15,7 @@ ErrorData::ErrorData() :
  *  @param[in]  errorCode       The error code.
  *  @param[in]  errorString     The error description.
  */
-ErrorData::ErrorData(int errorCode, const string & errorString) :
+ErrorData::ErrorData(int errorCode, const char * errorString) :
     errorCode_(errorCode), errorString_(errorString)
 {
 }
@@ -33,39 +33,9 @@ int ErrorData::errorCode() const
 /**
  *  @details    Gets the error's error string attribute.
  *
- *  @return     A constant reference to the error's error string.
+ *  @return     A const pointer to the error's error string.
  */
-const string & ErrorData::errorString() const
+const char * ErrorData::errorString() const
 {
     return errorString_;
-}
-
-/**
- *  @details    Gets the error's error string attribute.
- *
- *  @return     A reference to the error's error string.
- */
-string & ErrorData::errorString()
-{
-    return errorString_;
-}
-
-/**
- *  @details    Sets the error's error code attribute.
- *
- *  @param[in]  errorCode       The new error code.
- */
-void ErrorData::setErrorCode(int errorCode)
-{
-    errorCode_ = errorCode;
-}
-
-/**
- *  @details    Sets the error's error string attribute.
- *
- *  @param[in]  errorString     The new error string.
- */
-void ErrorData::setErrorString(const string & errorString)
-{
-    errorString_ = errorString;
 }
