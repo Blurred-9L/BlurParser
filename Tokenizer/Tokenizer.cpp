@@ -12,6 +12,7 @@
 #include "../Core/ErrorKeeper.h"
 
 #include <cctype>
+#include <iostream>
 
 /**
  *  @details    Constructs a Tokenizer object. The object constructed
@@ -263,14 +264,14 @@ Token * Tokenizer::getToken()
     Token * token = 0;
     TokenData tokenData;
     string symbol;
+    int lineLength;
     
     if (lineReader_ != 0) {
-        while ((charIdx >= (int)line_.length() || spaceOnlyLine()) && lineReader_->hasNext()) {
-            lineReader_->sendNextLine(*this);
-        }
+        loadNextLine();
     }
     
-    if ((charIdx < (int)line_.length()) && (automata_ != 0) && (keywords_ != 0)) {
+    lineLength = line_.length();
+    if (charIdx < lineLength && automata_ != 0 && keywords_ != 0) {
         tokenData = buildToken();
         symbol = line_.substr(tokenData.start(), tokenData.length());
         if (keywords_->isKeyword(symbol)) {
@@ -320,10 +321,11 @@ bool Tokenizer::hasError() const
 TokenData Tokenizer::buildToken()
 {
     int start = charIdx, state = 0, end = start;
+    int lineLength = line_.length();
     TokenData tokenData(start, 0, 0);
     bool done = false, error = false;
     
-    while ((!done) && (!error) && (end < (int)line_.length())) {
+    while ((!done) && (!error) && end < lineLength) {
         state = automata_->nextState(state, line_[end]);
         if (state > 0) {
             tokenData = TokenData(tokenData.start(), tokenData.length() + 1, state);
@@ -338,15 +340,25 @@ TokenData Tokenizer::buildToken()
             tokenData = TokenData(tokenData.start() + 1, tokenData.length(), state);
         }
         end++;
+        if (end >= lineLength && tokenData.length() == 0 && lineReader_->hasNext()) {
+            lineReader_->sendNextLine(*this);
+            lineLength = line_.length();
+            tokenData = TokenData(0, tokenData.length(), state);
+            end = 0;
+        }
     }
     
     if (error) {
         if (errorKeeper_ != 0) {
             errorKeeper_->addError(LEXIC_INPUT_ERROR, "Lexic Error: Wrong token formation | Unexpected symbol.");
+        } else {
+            std::cerr << "Lexic Error: Wrong token formation | Unexpected symbol." << std::endl;
         }
     } else if (!done) {
         if (errorKeeper_ != 0) {
             errorKeeper_->addError(TOKEN_NO_END_ERROR, "Lexic Error: Could not finish building last token.");
+        } else {
+            std::cerr << "Lexic Error: Could not finish building last token." << std::endl;
         }
     }
     
@@ -371,4 +383,15 @@ bool Tokenizer::spaceOnlyLine()
     }
     
     return spaceOnly;
+}
+
+/**
+ *  @details    Tries to get another line to continue the tokenizing by
+ *              asking the LineFileReader object to send the next line.
+ */
+void Tokenizer::loadNextLine()
+{
+    while ((charIdx >= (int)line_.length() || spaceOnlyLine()) && lineReader_->hasNext()) {
+        lineReader_->sendNextLine(*this);
+    }
 }

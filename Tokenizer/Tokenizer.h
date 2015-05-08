@@ -50,6 +50,8 @@ private:
     TokenData buildToken();
     /// Checks if a string only contains whitespaces.
     bool spaceOnlyLine();
+    /// Loads another line
+    void loadNextLine();
 
 public:
     /// Tokenizer defualt constructor.
