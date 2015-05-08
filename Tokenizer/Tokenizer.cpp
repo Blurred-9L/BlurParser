@@ -273,15 +273,17 @@ Token * Tokenizer::getToken()
     lineLength = line_.length();
     if (charIdx < lineLength && automata_ != 0 && keywords_ != 0) {
         tokenData = buildToken();
-        symbol = line_.substr(tokenData.start(), tokenData.length());
-        if (keywords_->isKeyword(symbol)) {
-            token = new Token(keywords_->getKeywordId(symbol), tokenData.start(),
-                              tokenLineNumber_, symbol);
-        } else if (automata_->isAcceptState(tokenData.state())) {
-            token = new Token(automata_->getTokenType(tokenData.state()), tokenData.start(),
-                              tokenLineNumber_, symbol);
+        if (tokenData.length() > 0) {
+            symbol = line_.substr(tokenData.start(), tokenData.length());
+            if (keywords_->isKeyword(symbol)) {
+                token = new Token(keywords_->getKeywordId(symbol), tokenData.start(),
+                                  tokenLineNumber_, symbol);
+            } else if (automata_->isAcceptState(tokenData.state())) {
+                token = new Token(automata_->getTokenType(tokenData.state()), tokenData.start(),
+                                  tokenLineNumber_, symbol);
+            }
+            charIdx = tokenData.start() + tokenData.length();
         }
-        charIdx = tokenData.start() + tokenData.length();
     }
     
     return token;
@@ -340,11 +342,13 @@ TokenData Tokenizer::buildToken()
             tokenData = TokenData(tokenData.start() + 1, tokenData.length(), state);
         }
         end++;
-        if (end >= lineLength && tokenData.length() == 0 && lineReader_->hasNext()) {
-            lineReader_->sendNextLine(*this);
-            lineLength = line_.length();
-            tokenData = TokenData(0, tokenData.length(), state);
-            end = 0;
+        if (end >= lineLength && tokenData.length() == 0) {
+            if (lineReader_ != 0 && lineReader_->hasNext()) {
+                lineReader_->sendNextLine(*this);
+                lineLength = line_.length();
+                tokenData = TokenData(0, tokenData.length(), state);
+                end = 0;
+            }
         }
     }
     
@@ -354,7 +358,7 @@ TokenData Tokenizer::buildToken()
         } else {
             std::cerr << "Lexic Error: Wrong token formation | Unexpected symbol." << std::endl;
         }
-    } else if (!done) {
+    } else if (!done && tokenData.length() > 0) {
         if (errorKeeper_ != 0) {
             errorKeeper_->addError(TOKEN_NO_END_ERROR, "Lexic Error: Could not finish building last token.");
         } else {
